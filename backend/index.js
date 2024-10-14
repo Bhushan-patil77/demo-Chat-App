@@ -5,12 +5,8 @@ const app = express()
 
 const { Server } = require('socket.io');
 
-app.use(cors({
-    origin: 'http://localhost:5173', // Allow your frontend origin
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true
-  }));
+app.use(cors())
+
 app.use(express.json());
 
 const server = http.createServer(app)
@@ -18,11 +14,9 @@ const server = http.createServer(app)
 // CORS options for Socket.io
 const io = new Server(server, {
     cors: {
-      origin: 'http://localhost:5173',
-      methods: ['GET', 'POST'],
-      credentials: true
-    },
-    transports: ['websocket', 'polling'] // Allow both WebSocket and polling as fallback
+      origin: '*'
+    }
+    
   });
   
 
