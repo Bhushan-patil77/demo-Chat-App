@@ -5,20 +5,25 @@ const app = express()
 
 const { Server } = require('socket.io');
 
-app.use(cors()); // CORS for Express
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow your frontend origin
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true
+  }));
 app.use(express.json());
 
 const server = http.createServer(app)
 
 // CORS options for Socket.io
 const io = new Server(server, {
-  cors: {
-    origin: "*", // You can restrict this to a specific origin
-    methods: ["GET", "POST"], // Allowed methods
-    allowedHeaders: ["my-custom-header"], // Custom headers, if any
-    credentials: true // Allow credentials if needed
-  }
-});
+    cors: {
+      origin: 'http://localhost:5173', // Allow frontend origin
+      methods: ['GET', 'POST'],
+      allowedHeaders: ['Content-Type'],
+      credentials: true
+    }
+  });
 
 io.on('connection', (socket) => {
   console.log('socket connected on ', socket.id);
